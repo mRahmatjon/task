@@ -1,0 +1,274 @@
+openapi: 3.0.1
+info:
+  title: Task Api Documentation
+  version: 0.0.1
+servers:
+  - url: http://localhost:8000/api
+    description: Dev Server
+paths:
+  /cars:
+    get:
+      summary: Get cars list
+      tags:
+        - Cars
+      operationId: getAllCars
+      responses:
+        '200':
+          description: Returns cars list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cars'
+  /store-car:
+    post:
+      summary: Creating new car
+      tags:
+        - Cars
+      operationId: createCar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Car'
+      responses:
+        '200':
+          description: Success status of storing data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Car'
+  /update-car:
+    post:
+      summary: Update car data
+      tags:
+        - Cars
+      operationId: updateCar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Car'
+      responses:
+        '200':
+          description: Success status of updating data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Car'
+  /delete-car/{id}:
+    get:
+      summary: Delete car
+      tags:
+        - Cars
+      operationId: deleteCar
+      parameters:
+        - in: path
+            name: id
+            required: true
+            description: Id of data
+      responses:
+        '200':
+          description: Success status that car was deleted
+        '422':
+          description: This car was booked
+        
+  /users:
+    get:
+      summary: Get users list
+      tags:
+        - Users
+      operationId: getAllUsers
+      responses:
+        '200':
+          description: Returns users list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users'
+  /store-user:
+    post:
+      summary: Creating new user
+      tags:
+        - Users
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: Success status of storing data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /update-user:
+    post:
+      summary: Updating user data
+      tags:
+        - Users
+      operationId: updateUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: Success status of updating data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /delete-user/{id}:
+    get:
+      summary: Delete user
+      tags:
+        - Users
+      operationId: deleteUser
+      parameters:
+        - in: path
+            name: id
+            required: true
+            description: Id of data
+      responses:
+        '200':
+          description: Success status that user was deleted
+        '422':
+          description: This user has booking
+          
+  /bookings:
+    get:
+      summary: Get bookings list
+      tags:
+        - Bookings
+      operationId: getAllBookings
+      responses:
+        '200':
+          description: Returns bookings list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+  /store-booking:
+    post:
+      summary: Create new booking
+      tags:
+        - Bookings
+      operationId: createBooking
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Booking'
+      responses:
+        '200':
+          description: Success status of storing data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+        '422':
+          description: User or car has already active booking
+  /update-booking:
+    post:
+      summary: Update booking data
+      tags:
+        - Bookings
+      operationId: updateBooking
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Booking'
+      responses:
+        '200':
+          description: Success status of updating data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+        '422':
+          description: User or car has already active booking
+  /delete-booking/{id}:
+    get:
+      summary: Delete booking
+      tags:
+        - Bookings
+      operationId: deleteBooking
+      parameters:
+        - in: path
+            name: id
+            required: true
+            description: Id of data
+      responses:
+        '200':
+          description: Success status that booking was deleted
+    
+  
+components:
+  schemas:
+    Car:
+      type: object
+      required:
+        - model
+      properties:
+        id:
+          type: integer
+          example: 1
+        model:
+          type: string
+          example: BMW
+    Cars:
+      type: array
+      items:
+        $ref: "#/components/schemas/Car"
+    User:
+      type: object
+      required:
+        - name
+        - email
+        - password
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "John Doe"
+        email:
+          type: string
+          example: "john@gmail.com"
+        password:
+          type: string
+          example: "simpl123"
+    Users:
+      type: array
+      items:
+        $ref: "#/components/schemas/User"
+    Booking:
+      type: object
+      required:
+        - user_id
+        - car_id
+      properties:
+        id:
+          type: integer
+          example: 1
+        user_id:
+          type: integer
+          example: 1
+        car_id:
+          type: integer
+          example: 1
+    Bookings:
+      type: array
+      items:
+        $ref: "#/components/schemas/Booking"
